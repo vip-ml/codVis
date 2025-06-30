@@ -19,15 +19,22 @@ function gaussianRandom() {
     return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
 }
 
-// Generates multi-dimensional data points from a standard normal distribution.
+// Generate a sample from multivariate normal distribution with identity covariance
+function generateMultivariateNormal(dimensions) {
+    const sample = [];
+    for (let i = 0; i < dimensions; i++) {
+        sample.push(gaussianRandom());
+    }
+    return sample;
+}
+
+// Generates multi-dimensional data points from proper multivariate normal distributions.
 function generateData() {
     data = [];
     for (let i = 0; i < numPoints; i++) {
-        const point = [];
-        for (let j = 0; j < MAX_DIMS; j++) {
-            point.push(gaussianRandom());
-        }
-        data.push(point);
+        // Generate a full MAX_DIMS dimensional sample
+        const fullSample = generateMultivariateNormal(MAX_DIMS);
+        data.push(fullSample);
     }
 }
 
