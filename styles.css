@@ -1,156 +1,100 @@
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Base Styles */
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
 }
 
 /* Article styling */
 .prose {
-    color: #4a5568; /* Slightly lighter than default */
+    color: #374151;
 }
 
 .prose h2 {
-    font-family: 'Lora', serif;
-    color: #1a202c;
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.5px;
+    color: #1f2937;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .prose h3 {
-    font-family: 'Lora', serif;
-    color: #2d3748;
-    margin-bottom: 0.75rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
 }
 
 /* Chart containers */
 .chart-container {
-    background: #f7fafc;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
 }
 
 /* Percentage displays */
 .percentage-display {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     font-weight: 700;
-    color: #2c5282; /* A deeper, more muted blue */
+    color: #2563eb;
     margin-bottom: 0.5rem;
 }
 
 /* D3 chart styles */
 #d3-1d-chart .bar.highlighted {
-    fill: #4299e1; /* A brighter blue for highlights */
+    fill: #3b82f6;
 }
 
 #d3-1d-chart .bar {
-    fill: #cbd5e0;
-    transition: fill 0.2s ease-in-out;
+    fill: #d1d5db;
+    transition: fill 0.2s ease;
 }
 
 #d3-1d-chart .bar:hover {
-    fill: #a0aec0;
+    fill: #9ca3af;
 }
 
 /* Three.js canvas */
 #three-canvas {
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border-radius: 4px;
 }
 
 /* Interactive elements */
 input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
-    background: #e2e8f0;
-    border-radius: 9999px;
-    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    height: 6px;
     outline: none;
-    transition: background 0.2s;
-}
-
-input[type="range"]:hover {
-    background: #cbd5e0;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #2c5282;
+    width: 18px;
+    height: 18px;
+    background: #2563eb;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 0 4px rgba(44, 82, 130, 0.1);
-    transition: box-shadow 0.2s;
-}
-
-input[type="range"]:active::-webkit-slider-thumb {
-    box-shadow: 0 0 0 8px rgba(44, 82, 130, 0.2);
 }
 
 input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: #2c5282;
+    width: 18px;
+    height: 18px;
+    background: #2563eb;
     border-radius: 50%;
     cursor: pointer;
     border: none;
 }
 
-/* Custom Alert/Info Boxes */
-.info-box {
-    border-left-width: 4px;
-    padding: 1.5rem;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 1.5rem;
-}
-
-.info-box h3 {
-    margin-top: 0;
-    font-family: 'Inter', sans-serif; /* Use sans-serif for box headers */
-}
-
-.info-box-yellow {
-    background-color: #fffbeb;
-    border-color: #fbbf24;
-    color: #92400e;
-}
-
-.info-box-blue {
-    background-color: #eff6ff;
-    border-color: #60a5fa;
-    color: #1e40af;
-}
-
-.info-box-orange {
-    background-color: #fff7ed;
-    border-color: #fb923c;
-    color: #9a3412;
-}
-
-.final-thought-box {
-    background: #1a202c;
-    color: #e2e8f0;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .percentage-display {
-        font-size: 2rem;
+        font-size: 1.875rem;
     }
-
+    
     .chart-container {
-        padding: 1.5rem;
+        padding: 1rem;
     }
 }
