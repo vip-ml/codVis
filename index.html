@@ -11,86 +11,264 @@
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">The Curse of Dimensionality</h1>
-            <p class="mt-2 text-lg text-gray-600">Visualizing how data becomes sparse in higher dimensions.</p>
-            <p class="mt-2 text-sm text-gray-500 max-w-3xl mx-auto">As we add dimensions, a region of a fixed size (defined by the radius) captures a rapidly decreasing fraction of the data points. The space effectively becomes empty.</p>
-        </div>
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Why Your Machine Learning Model Struggles with High-Dimensional Data</h1>
+            <p class="text-xl text-gray-600 leading-relaxed">An interactive exploration of the curse of dimensionality</p>
+        </header>
 
-        <!-- Controls -->
-        <div class="bg-white p-4 rounded-xl shadow-md mb-8 sticky top-4 z-20">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <article class="prose prose-lg max-w-none">
+            <section class="mb-12">
+                <p class="text-lg leading-relaxed text-gray-700 mb-6">
+                    You've probably heard the term "curse of dimensionality" thrown around in machine learning discussions, 
+                    but what does it actually mean? And why should you care? Let me show you something that might surprise you.
+                </p>
+                
+                <p class="text-gray-700 mb-6">
+                    Imagine you're looking for your friends at a party. In a long hallway (1D), you just need to look left and right. 
+                    In a room (2D), you scan around in a circle. In a multi-story building (3D), you check above and below too. 
+                    But what happens when you're searching in a space with 10, 50, or even 1000 dimensions? 
+                    This isn't just theoretical—modern datasets routinely have hundreds or thousands of features.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-6 my-8">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-2">Try This Experiment</h3>
+                    <p class="text-blue-800">
+                        Play with the controls below. Watch how dramatically the percentage of selected points drops 
+                        as we move from 1D to 20D, even though we're using the exact same data and selection criteria.
+                    </p>
+                </div>
+            </section>
+        </article>
+
+        <!-- Interactive Controls -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border mb-8">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Interactive Controls</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="radius-slider" class="block text-sm font-medium text-gray-700">Selection Radius (r): <span id="radius-value" class="font-bold text-blue-600">1.0</span>σ</label>
-                    <input id="radius-slider" type="range" min="0.1" max="3" step="0.05" value="1.0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <label for="radius-slider" class="block text-sm font-medium text-gray-700 mb-2">
+                        Search radius: <span id="radius-value" class="font-semibold text-blue-600">1.0</span> standard deviations
+                    </label>
+                    <input id="radius-slider" type="range" min="0.1" max="3" step="0.05" value="1.0" 
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <p class="text-xs text-gray-500 mt-1">How far from the center should we look?</p>
                 </div>
                 <div>
-                    <label for="points-slider" class="block text-sm font-medium text-gray-700">Number of Data Points (n): <span id="points-value" class="font-bold text-blue-600">2000</span></label>
-                    <input id="points-slider" type="range" min="500" max="10000" step="100" value="2000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <label for="points-slider" class="block text-sm font-medium text-gray-700 mb-2">
+                        Dataset size: <span id="points-value" class="font-semibold text-blue-600">2000</span> points
+                    </label>
+                    <input id="points-slider" type="range" min="500" max="10000" step="100" value="2000" 
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <p class="text-xs text-gray-500 mt-1">Bigger datasets don't solve the fundamental problem</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Visualizations Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- 1D Visualization -->
-            <div class="chart-container flex flex-col">
-                <div class="text-center">
-                    <div class="percentage-display" id="p1d">0%</div>
-                    <div class="dimension-label">1-Dimension</div>
-                    <p class="text-xs text-gray-500 mb-2">Points where |x| ≤ r</p>
-                </div>
-                <div id="d3-1d-chart" class="flex-grow min-h-[300px]"></div>
-            </div>
-
-            <!-- 2D Visualization -->
-            <div class="chart-container flex flex-col">
-                <div class="text-center">
-                    <div class="percentage-display" id="p2d">0%</div>
-                    <div class="dimension-label">2-Dimensions</div>
-                     <p class="text-xs text-gray-500 mb-2">Points where sqrt(x²+y²) ≤ r</p>
-                </div>
-                <div id="d3-2d-chart" class="flex-grow min-h-[300px]"></div>
-            </div>
-
-            <!-- 3D Visualization -->
-            <div class="chart-container flex flex-col">
-                 <div class="text-center">
-                    <div class="percentage-display" id="p3d">0%</div>
-                    <div class="dimension-label">3-Dimensions</div>
-                     <p class="text-xs text-gray-500 mb-2">Points where sqrt(x²+y²+z²) ≤ r</p>
-                </div>
-                <div id="d3-3d-chart" class="flex-grow min-h-[300px] relative">
-                    <canvas id="three-canvas"></canvas>
-                </div>
-            </div>
-        </div>
         
-        <!-- Higher Dimensions -->
-        <div class="mt-8">
-             <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Beyond Visualization</h2>
-             <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">We can't draw 4D space, but we can still calculate the percentage of points inside a 4D hypersphere. Notice how quickly the percentage approaches zero.</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <div class="percentage-display" id="p4d">0%</div>
-                    <div class="dimension-label">4-Dimensions</div>
+        <!-- Visualization Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">See It For Yourself</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- 1D: The Line -->
+                <div class="chart-container flex flex-col">
+                    <div class="text-center mb-4">
+                        <div class="percentage-display" id="p1d">0%</div>
+                        <h3 class="text-lg font-medium text-gray-800">On a Line</h3>
+                        <p class="text-sm text-gray-600">Finding neighbors is straightforward</p>
+                    </div>
+                    <div id="d3-1d-chart" class="flex-grow min-h-[280px]"></div>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <div class="percentage-display" id="p5d">0%</div>
-                    <div class="dimension-label">5-Dimensions</div>
+
+                <!-- 2D: The Plane -->
+                <div class="chart-container flex flex-col">
+                    <div class="text-center mb-4">
+                        <div class="percentage-display" id="p2d">0%</div>
+                        <h3 class="text-lg font-medium text-gray-800">On a Plane</h3>
+                        <p class="text-sm text-gray-600">Points spread in a circle</p>
+                    </div>
+                    <div id="d3-2d-chart" class="flex-grow min-h-[280px]"></div>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <div class="percentage-display" id="p10d">0%</div>
-                    <div class="dimension-label">10-Dimensions</div>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <div class="percentage-display" id="p20d">0%</div>
-                    <div class="dimension-label">20-Dimensions</div>
+
+                <!-- 3D: The Space -->
+                <div class="chart-container flex flex-col">
+                    <div class="text-center mb-4">
+                        <div class="percentage-display" id="p3d">0%</div>
+                        <h3 class="text-lg font-medium text-gray-800">In 3D Space</h3>
+                        <p class="text-sm text-gray-600">Already getting sparse</p>
+                    </div>
+                    <div id="d3-3d-chart" class="flex-grow min-h-[280px] relative">
+                        <canvas id="three-canvas"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="prose prose-lg max-w-none mb-8">
+                <p class="text-gray-700">
+                    Notice something interesting? Even going from 2D to 3D, we lose a significant chunk of our data points. 
+                    This isn't because there's anything wrong with our data or our search radius—it's a fundamental property 
+                    of high-dimensional spaces.
+                </p>
+            </div>
+        </section>
+
+        <!-- The Real Problem: Higher Dimensions -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">The Real Problem: When Dimensions Explode</h2>
+            
+            <p class="text-gray-700 mb-6">
+                Real-world machine learning datasets don't just have 3 dimensions. Consider a typical e-commerce recommendation system: 
+                customer age, income, browsing history, purchase frequency, seasonal patterns, geographic location, device type, 
+                time of day preferences... Before you know it, you're working in 50+ dimensional space.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow-sm border text-center">
+                    <div class="percentage-display text-2xl" id="p4d">0%</div>
+                    <div class="text-sm font-medium text-gray-700">4 Dimensions</div>
+                    <div class="text-xs text-gray-500 mt-1">Getting sparse</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border text-center">
+                    <div class="percentage-display text-2xl" id="p5d">0%</div>
+                    <div class="text-sm font-medium text-gray-700">5 Dimensions</div>
+                    <div class="text-xs text-gray-500 mt-1">Noticeably empty</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border text-center">
+                    <div class="percentage-display text-2xl" id="p10d">0%</div>
+                    <div class="text-sm font-medium text-gray-700">10 Dimensions</div>
+                    <div class="text-xs text-gray-500 mt-1">Mostly empty</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm border text-center">
+                    <div class="percentage-display text-2xl" id="p20d">0%</div>
+                    <div class="text-sm font-medium text-gray-700">20 Dimensions</div>
+                    <div class="text-xs text-gray-500 mt-1">Nearly void</div>
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                <h3 class="text-lg font-medium text-yellow-800 mb-2">What This Means in Practice</h3>
+                <p class="text-yellow-700">
+                    When your machine learning algorithm tries to find "similar" customers or products, 
+                    it's essentially doing what we're visualizing here—looking for nearby points in high-dimensional space. 
+                    But as you can see, in 20+ dimensions, almost no points are "nearby" to each other!
+                </p>
+            </div>
+        </section>
+
+        <!-- Why This Happens -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Why Does This Happen?</h2>
+            
+            <div class="prose prose-lg max-w-none">
+                <p class="text-gray-700 mb-6">
+                    The mathematical explanation is both elegant and counterintuitive. As dimensions increase, 
+                    the volume of a hypersphere (our selection region) grows much slower than the volume of the 
+                    entire space around it. 
+                </p>
+
+                <p class="text-gray-700 mb-6">
+                    Think about it this way: in 2D, doubling the radius quadruples the area. In 3D, it increases 
+                    the volume by 8 times. But the "space" around our selection region grows even faster. 
+                    Most of the volume in high dimensions concentrates near the edges, leaving the center—where we're 
+                    looking—increasingly empty.
+                </p>
+
+                <div class="bg-gray-50 p-6 rounded-lg border">
+                    <h3 class="text-lg font-medium text-gray-800 mb-3">The Distance Problem</h3>
+                    <p class="text-gray-700">
+                        Here's another way to think about it: in high dimensions, the distance between the nearest 
+                        and farthest points becomes almost the same. When everything is equally "far" from everything else, 
+                        the concept of "similarity" based on distance becomes meaningless.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-World Impact -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">How This Breaks Machine Learning</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Algorithms That Struggle</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li><strong>k-Nearest Neighbors:</strong> Can't find meaningful neighbors</li>
+                        <li><strong>Clustering (k-means, etc.):</strong> All points seem equally distant</li>
+                        <li><strong>Anomaly Detection:</strong> Everything looks like an outlier</li>
+                        <li><strong>Similarity Search:</strong> Recommendations become random</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">What Actually Happens</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>Models overfit to noise instead of signal</li>
+                        <li>Training time increases exponentially</li>
+                        <li>You need vastly more data to get reliable results</li>
+                        <li>Cross-validation becomes unreliable</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Fighting Back: Practical Solutions</h2>
+            
+            <div class="prose prose-lg max-w-none">
+                <p class="text-gray-700 mb-6">
+                    The good news? We're not helpless against the curse. Here are the strategies that actually work 
+                    in practice:
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg border shadow-sm">
+                        <h3 class="text-lg font-semibold text-blue-600 mb-3">Dimensionality Reduction</h3>
+                        <p class="text-gray-700 text-sm">
+                            PCA, t-SNE, UMAP, or autoencoders can compress your data into fewer, more meaningful dimensions. 
+                            Often 90% of the information lives in just 10% of the dimensions.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border shadow-sm">
+                        <h3 class="text-lg font-semibold text-green-600 mb-3">Feature Selection</h3>
+                        <p class="text-gray-700 text-sm">
+                            Not all features are created equal. Use domain knowledge, correlation analysis, 
+                            or automated feature selection to keep only what matters.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border shadow-sm">
+                        <h3 class="text-lg font-semibold text-purple-600 mb-3">Regularization</h3>
+                        <p class="text-gray-700 text-sm">
+                            L1/L2 regularization, dropout, and early stopping help prevent your model from 
+                            memorizing the noise that high-dimensional spaces are full of.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="text-gray-700">
+                    The key insight? Don't fight the curse directly—work around it. Modern deep learning actually 
+                    embraces high dimensions but uses techniques like batch normalization, residual connections, 
+                    and attention mechanisms to find the signal in the noise.
+                </p>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">The Bottom Line</h2>
+            
+            <div class="bg-blue-50 p-8 rounded-lg">
+                <p class="text-lg text-blue-900 leading-relaxed">
+                    The curse of dimensionality isn't just a theoretical curiosity—it's a practical reality that affects 
+                    every machine learning project. Understanding it helps explain why that simple k-means clustering 
+                    didn't work on your 100-feature dataset, or why your recommendation system performs poorly despite 
+                    having lots of data.
+                </p>
+                <p class="text-blue-800 mt-4">
+                    The next time someone suggests "just add more features," you'll know why that might not be the answer. 
+                    Sometimes, less really is more.
+                </p>
+            </div>
+        </section>
+            </div>
+        </section>
     </div>
 
     <!-- JavaScript Files -->
